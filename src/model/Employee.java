@@ -8,12 +8,14 @@ public abstract class Employee{
 	private String id;
 	private double salary;
 	private boolean state;
+	private String team;
 	
 	public Employee(){
 		name = new String();
 		id = new String();
 		salary = 0;
 		state = false;
+		team = new String();
 	}//End constructor
 	
 	public Employee(String n, String i, double s, boolean t){
@@ -21,6 +23,7 @@ public abstract class Employee{
 		id = i;
 		salary = s;
 		state = t;
+		team = new String();
 	}//End constructor
 	/**
 	*Changes the employee name.
@@ -59,9 +62,17 @@ public abstract class Employee{
 		return state;
 	}//End getState
 	
+	public void setTeam(String team){
+	this.team = team;
+	}//End setName
+	
+	public String getTeam(){
+		return team;
+	}//End getTeam
+	
 	public String toString(){
 		String obj = "Nombre: " + name + "\nIdentificacion: " + id + 
-		"\nSalario: " + salary + "\n" + "Estado: " + (state)?"Activo":"Inactivo";
+		"\nSalario: " + salary + "\n" + "Estado: " + ((state)?"Activo":"Inactivo");
 		return obj;
 	}//End toString
 }//End Employee

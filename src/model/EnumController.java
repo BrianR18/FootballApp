@@ -57,7 +57,7 @@ public class EnumController{
 	
 	public String displayExpertiseEnum(){
 		String expertiseEnum = new String();
-		for(Expertise expertise: t){
+		for(Expertise expertise: e){
 		   expertiseEnum += "-" + removeUnderscores(expertise.toString()) + "\n";
 		}//End for
 		return expertiseEnum;

@@ -1,5 +1,6 @@
 package model;
-import java.util.Random;
+import java.util.Collections;
+import java.util.ArrayList;
 
 public class Club{
 	private String name;
@@ -11,34 +12,31 @@ public class Club{
 	private Team[] teams;
 	private EnumController controller;
 	private ArrayList<Employee> employees;
-	private Random choice;
 	
 	public Club(){
 		name = new String();
 		NIT = new String();
 		date = new Date();
-		choice = new Random();
 		controller = new EnumController();
 		dressingRoom1 = new String[7][6];
 		dressingRoom2 = new String[7][7];
 		offices = new String[6][6];
 		teams = new Team[2];
-		Team[0] =  new Team("A");
-		Team[1] =  new Team("B");
+		teams[0] =  new Team("A");
+		teams[1] =  new Team("B");
 	}//End constructors1
 	
 	public Club(String name, String NIT){
 		this.name = name;
 		this.NIT = NIT;
 		date = new Date();
-		choice = new Random();
 		controller = new EnumController();
 		dressingRoom1 = new String[7][6];
 		dressingRoom2 = new String[7][7];
 		offices = new String[6][6];
 		teams = new Team[2];
-		Team[0] =  new Team("A");
-		Team[1] =  new Team("B");
+		teams[0] =  new Team("A");
+		teams[1] =  new Team("B");
 	}//End constructors2
 	
 	public boolean addDate(int day, int month, int year){
@@ -54,29 +52,32 @@ public class Club{
 		this.NIT = NIT;
 	}//End setNIT
 	
-	public String hireEmployee(String name,String id,double salary,boolean state,int expYears,int nTeams,int CSWon){
+	public String hireEmployee(String name,String id,double salary,int expYears,int nTeams,int CSWon){
 		String msg = "Empleado contratado con exito.";
-		Employee mainCouch = new MainCouch(name,id,salary,state,expYears,nTeams,CSWon);
+		Employee mainCouch = new MainCouch(name,id,salary,false,expYears,nTeams,CSWon);
 		employees.add(mainCouch);
 		return msg;
 	}//End hireEmployee.
 	
-	public String hireEmployee(String name,String id,double salary,boolean state,int expYears,boolean exPlayer,String expertise){
+	public String hireEmployee(String name,String id,double salary,int expYears,boolean exPlayer,String expertise){
 		String msg = "No se ha podido contratar al empleado.";
 		expertise = controller.addUnderscores(expertise);
 		if(controller.checkExpertiseEnum(expertise)){
-			Employee assisteCouch = new AssistCouch(name,id,salary,state,exPlayer);
+			AssistCouch assisteCouch = new AssistCouch(name,id,salary,false,expYears,exPlayer);
 			assisteCouch.addExpertise(expertise);
+			Employee e = (Employee) assisteCouch;
 			employees.add(assisteCouch);
 			msg = "Empleado contratado con exito.";
 		}//End if
+		return msg;
 	}//End hireEmployee.
 	
-	public String hireEmployee(String name,String id,double salary,boolean state,int shirt,int goals,double averageScore,String position){
+	public String hireEmployee(String name,String id,double salary,int shirt,int goals,double averageScore,String position){
 		String msg = "No se ha podido contratar al empleado.";
 		if(controller.checkPositionEnum(position)){
-		  Employee player = new Player(name,id,salary,state,shirt,goals,averageScore);
+		  Player player = new Player(name,id,salary,false,shirt,goals,averageScore);
 		  player.setPosition(position);
+		  Employee e = (Employee) player;
 		  employees.add(player);
 		  msg = "Empleado contratado con exito.";
 		}//End if
@@ -99,6 +100,7 @@ public class Club{
 		boolean state = false;
 		String msg;
 		if( (team != -1) && (employee != -1) ){
+			employees.get(employee).setTeam(teamName);
 			if( employees.get(employee) instanceof MainCouch){
 				MainCouch mCouch = (MainCouch)employees.get(employee);
 				teams[team].setMainCouch(mCouch);
@@ -112,7 +114,7 @@ public class Club{
 				teams[team].addPlayer(player);
 			}//End else
 		}//End if
-		msg = (state)?"Se ha agregado el empleado al equipo.":"No se ha agregado el empleado al equipo.";
+		msg = (state)?"Se ha agregado el empleado al equipo.":"No se ha agregado el empleado al equipo.ID o Equipo incorrecto.";
 		return msg;
 	}//End addEmployeeToTeam.
 	
@@ -143,12 +145,93 @@ public class Club{
 		return msg;
 	}//End displayTacticsEnum
 	
-	public void fillDressingRoom
+	public boolean checkTacticsEnum(String a){
+		a = controller.addUnderscores(a);
+		boolean check = controller.checktTaticsEnum(a);
+		return check;
+	}//End checkTacticsEnum
+	
+	public boolean checkPositionEnum(String a){
+		a = controller.addUnderscores(a);
+		boolean check = controller.checkPositionEnum(a);
+		return check;
+	}//End checkTacticsEnum
+	
+	public boolean checkExpertiseEnum(String a){
+		a = controller.addUnderscores(a);
+		boolean check = controller.checkExpertiseEnum(a);
+		return check;
+	}//End checkTacticsEnum
+	
+	public void fillDressingRoomTeamA(){
+		int distance = 0;
+		int player = 0;
+		boolean allplayers = false;
+		Collections.shuffle(employees); 
+		for(int i = 0; i < 7 && !allplayers; i++){
+		  for(int j = 0; j < 6 && !allplayers; j++){
+			  if(distance % 2 == 0){
+				  while( (!(employees.get(player) instanceof Player) || !((employees.get(player).getTeam()).equals("A"))) && ( player+1 < employees.size()) ){
+					  player++;
+				  }//End while
+				  if(player < employees.size())
+					dressingRoom1[i][j] = "x";
+				  else
+					allplayers = true;
+			  }//End if
+			 distance++; 
+		  }//End for
+		  distance++;
+		}//End for
+	}//End fillDressingRoomTeamA.
+	
+	public void fillDressingRoomTeamB(){
+		int distance = 0;
+		int player = 0;
+		boolean allplayers = false;
+		Collections.shuffle(employees); 
+		for(int i = 0; i < 7 && !allplayers; i++){
+		  for(int j = 0; j < 7 && !allplayers; j++){
+			  if(distance % 2 == 0){
+				  while( (!(employees.get(player) instanceof Player) || !((employees.get(player).getTeam()).equals("B"))) && ( player+1 < employees.size()) ){
+					  player++;
+				  }//End while
+				  if(player < employees.size())
+					dressingRoom2[i][j] = "x";
+				  else
+					allplayers = true;
+			  }//End if
+			 distance++; 
+		  }//End for
+		}//End for
+	}//End fillDressingRoomTeamA.
+	
+	public void fillOffices(){
+		int distance = 0;
+		int couch = 0;
+		boolean allcouches = false;
+		Collections.shuffle(employees); 
+		for(int i = 0; i < 6 && !allcouches; i++){
+		  for(int j = 0; j < 6 && !allcouches; j++){
+			  if(distance % 2 == 0){
+				  while( (employees.get(couch) instanceof Player)  && ( couch+1 < employees.size()) ){
+					  couch++;
+				  }//End while
+				  if(couch < employees.size())
+					offices[i][j] = "x";
+				  else
+					allcouches = true;
+			  }//End if
+			 distance++; 
+		  }//End for
+		  distance++; 
+		}//End for
+	}//End fillOfficess
 	
 	public int findTeam(String name){
 		int index = -1;
 		boolean found = false;
-		for(int i = 0; i < teams.length && !index; i++ ){
+		for(int i = 0; i < teams.length && !found; i++ ){
 			if(name.equals(teams[i].getName())){
 				index = i;
 				found = false;
@@ -168,5 +251,15 @@ public class Club{
 		}//End for
 		return index;
 	}//End findId
+	
+	public String displayEmployeeInformation(String id){
+		boolean found = false;
+		String info = new String();
+		for(int i = 0; i < employees.size() && !found; i++){
+			if(id.equals(employees.get(i).getId())){
+				
+			}//End if
+		}//End for
+	}//End displayEmployeeInformation
 	
 }//End Club

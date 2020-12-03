@@ -34,7 +34,7 @@ public class MainCouch extends Couch implements Calculable{
 	
 	@Override
 	public double calculatePrice(){
-		double price = (super.getSalary()*10) + (super.expYear()*100) + (championshipsWon*50);
+		double price = (super.getSalary()*10) + (super.getExpYears()*100) + (championshipsWon*50);
 		return price;
 	}//End calculatePrice
 	

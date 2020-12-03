@@ -1,4 +1,5 @@
 package model;
+import java.util.ArrayList;
 
 public class Team{
 	private String name;
@@ -14,7 +15,7 @@ public class Team{
 		mainCouch = new MainCouch();
 		assistCouches = new AssistCouch[ASSISTCOUCH];
 		players = new Player[PLAYERS];
-		alignments = new rrayList<Alignment>();
+		alignments = new ArrayList<Alignment>();
 	}//End Team
 	
 	public Team(String name){
@@ -22,7 +23,7 @@ public class Team{
 		mainCouch = new MainCouch();
 		assistCouches = new AssistCouch[ASSISTCOUCH];
 		players = new Player[PLAYERS];
-		alignments = new rrayList<Alignment>();
+		alignments = new ArrayList<Alignment>();
 	}//End Team
 	
 	public String getName(){
@@ -70,6 +71,6 @@ public class Team{
 			alignments.add(alignment);
 		}//End if
 		return status;
-	}//End addTraining.
+	}//End addTraining.*/
 	
 }//End Team

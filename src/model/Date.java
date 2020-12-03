@@ -1,4 +1,5 @@
 package model;
+import java.util.Arrays; 
 
 public class Date{
 	
@@ -62,7 +63,7 @@ public class Date{
 		return check;
 	}//End year
 	
-	public boolean checkLeapYear(year){
+	public boolean checkLeapYear(int year){
 		boolean leapYear = false;
 		if((year%4 == 0))
 			if((year%100 == 0)&&(year%400 == 0))
@@ -72,5 +73,6 @@ public class Date{
 	
 	public String toString(){
 		String obj = day + "/" + month + "/" + year;
+		return obj;
 	}//End toString
 }//End Date

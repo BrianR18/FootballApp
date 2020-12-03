@@ -1,4 +1,5 @@
 package model;
+import java.util.ArrayList;
 
 public class AssistCouch extends Couch{
 	private boolean explayer;
@@ -7,7 +8,7 @@ public class AssistCouch extends Couch{
 	public AssistCouch(){
 		super();
 		explayer = false;
-		expertise = Expertise.OFENSIVO;
+		expertises.add(Expertise.OFENSIVO);
 	}//End AssistCouch
 	
 	public AssistCouch(String name, String id, double salary, boolean state,int expYears, boolean explayer){
@@ -29,13 +30,17 @@ public class AssistCouch extends Couch{
 	}//End setExpertise
 	
 	public String getExpertise(){
-		return expertise.toString();
+		String exp = new String();
+		for(Expertise e: expertises){
+			exp += "-"+ e;
+		}//End for
+		return exp;
 	}//End getExpertise
 	
 	public boolean checkExpertise(String expertise){
 		boolean check = false;
 		for(int i = 0; i < expertises.size() && !check; i++){
-			if(expertise.equals(expertises.get().toString()))
+			if(expertise.equals(expertises.get(i).toString()))
 		      check = true;
 		}//End for
 		return check;
@@ -43,8 +48,8 @@ public class AssistCouch extends Couch{
 	
 	@Override
 	public String toString(){
-		String obj = super.toString() + "\nExperticia: " + expertise.toString() + 
-					"\nEx-jugador: " + (explayer)?"si":"no";
+		String obj = super.toString() + "\nExperticia: " + getExpertise() + 
+					"\nEx-jugador: " + ((explayer)?"si":"no");
 		return obj;
 	}//End toString
 }//End AssistCouch

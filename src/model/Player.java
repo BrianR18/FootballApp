@@ -48,7 +48,7 @@ public class Player extends Employee implements Calculable{
 	}//End setPosition
 	
 	public String getPosition(){
-		return position.toString;
+		return position.toString();
 	}//End getPosition
 	
 	@Override
@@ -68,6 +68,7 @@ public class Player extends Employee implements Calculable{
 				price = (super.getSalary()*15) + (averageScore*145) + (goals*150);
 				break;
 		}//End switch
+		return price;
 	}//End calculatePrice
 	
 	@Override
@@ -87,6 +88,7 @@ public class Player extends Employee implements Calculable{
 				level = (averageScore*0.9) + (goals*80.0);
 				break;
 		}//End switch
+		return level;
 	}//End calculateLevel
 	
 	@Override

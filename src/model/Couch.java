@@ -20,7 +20,7 @@ public abstract class Couch extends Employee{
 		return expYears;
 	}//End getExpYears
 	
-	@override
+	@Override
 	public String toString(){
 		String obj = super.toString() + "\nAnios de experiencia: " + expYears;
 		return obj;
