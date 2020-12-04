@@ -73,4 +73,33 @@ public class Team{
 		return status;
 	}//End addTraining.*/
 	
+	public String toString(){
+		boolean exit = false;
+		String obj = "Nombre del equipo: " + name + "\n" +
+		"Entrenador principal: " + ((mainCouch.getName() != null) ?mainCouch.getName() :"Sin asignar" ) + "\n"
+		+ "Asistentes tecnicos: ";
+		for(int i = 0; i < ASSISTCOUCH; i++ ){
+			if(assistCouches[i] != null){
+				obj += assistCouches[i].getName();
+			}//End if
+			if((i+1 < ASSISTCOUCH))
+				obj += (assistCouches[i+1] != null)?", ":"";
+		}//End for
+		obj += "\nJugadores: ";
+		for(int i = 0; i < PLAYERS && !exit; i++ ){
+			if(i%5 == 0)
+			   obj += "\n";
+			if(players[i] != null){
+				obj += players[i].getName();
+				exit = true;
+			}//End if
+			if(i+1 < PLAYERS)
+				obj += (players[i+1] != null)?"-":"";
+		}//End for
+		obj += "\nAlineaciones del equipo...\n";
+		for(int i = 0; i < alignments.size(); i++){
+			obj += alignments.get(i).toString() + "\n";
+		}//End for
+		return obj;
+	}//End toString
 }//End Team

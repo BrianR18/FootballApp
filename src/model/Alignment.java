@@ -22,6 +22,9 @@ public class Alignment{
 	public void addTactic(String tactic){
 		this.tactic = Tactic.valueOf(tactic);
 	}//End addTactic
+	public String getTactic(){
+		return tactic.toString();
+	}//End getTactic
 	
 	public void addTraining(String t){
 		int[] numbers = getTrainingFromString(t);
@@ -70,4 +73,11 @@ public class Alignment{
         }//End for
         return numbers;
 	}//End getNumbersFromString
+	
+	public String toString(){
+		String obj = "Fecha de la alineacion: " + date.toString() + "\n" +
+		"Tactica de la alineacion: " + getTactic() + "\n" +
+		"Formacion: " + getTrainingString();
+		return obj;
+	}//End toString.
 }//End Alignment

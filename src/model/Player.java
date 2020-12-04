@@ -95,7 +95,7 @@ public class Player extends Employee implements Calculable{
 	public String toString(){
 		String obj = super.toString() + "\nNumero de camiseta: " + shirtNumber + "\n" +
 					"Numero de goles hechos: " + goals + "\n" + "Calificacion promedio: " + averageScore
-					+ "Posicion: " + position.toString();
+					+ "\nPosicion: " + position.toString();
 		return obj;
 	}//End toString
 }//End Player

@@ -8,11 +8,13 @@ public class AssistCouch extends Couch{
 	public AssistCouch(){
 		super();
 		explayer = false;
+		expertises = new ArrayList<Expertise>();
 		expertises.add(Expertise.OFENSIVO);
 	}//End AssistCouch
 	
 	public AssistCouch(String name, String id, double salary, boolean state,int expYears, boolean explayer){
 		super(name,id,salary,state,expYears);
+		expertises = new ArrayList<Expertise>();
 		this.explayer = explayer;
 	}//End AssistCouch
 	

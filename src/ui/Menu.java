@@ -29,6 +29,14 @@ public class Menu{
 		sc = new Scanner(System.in);
 	}//End Menu
 	
+	public int readOption(){
+		int opt = 0;
+		System.out.print("Ingrese la opcion: ");
+		opt = sc.nextInt();
+		sc.nextLine();
+		return opt;
+	}//End readOption
+	
 	public void displayMainMenu(){
 		System.out.println("\n\nMostrando menu....");
 		System.out.println("\n[1]Contratar empleado.");
@@ -113,7 +121,7 @@ public class Menu{
 				System.out.print("\n" + club.displayExpertiseEnum());
 				System.out.print("Ingrese la experticia del asistente: ");
 				expertise = sc.nextLine();
-				while(club.checkExpertiseEnum(expertise)){
+				while(!club.checkExpertiseEnum(expertise)){
 					System.out.println("["+expertise + "] no es una experticia valida.");
 					System.out.println("\nMostrando experticias...");
 					System.out.print("\n" + club.displayExpertiseEnum());
@@ -129,11 +137,6 @@ public class Menu{
 				  sc.nextLine();
 				}while(shirt<0);
 				do{
-				  System.out.print("Cantidad de goles metidos por el jugador: ");
-				  goals = sc.nextInt();
-				  sc.nextLine();
-				}while(goals < 0);
-				do{
 				  System.out.print("Ingrese la calificacion promedio del jugador: ");
 				  averageScore = sc.nextDouble();
 				  sc.nextLine();
@@ -142,24 +145,31 @@ public class Menu{
 				System.out.print("\n"+club.displayPositionEnum());
 				System.out.print("Ingrese la posicion del jugador: ");
 				position = sc.nextLine();
-				while(club.checkPositionEnum(position)){
+				while(!club.checkPositionEnum(position)){
 					System.out.println("[" + position + "] no es una posicion valida.");
 					System.out.println("\nMostrando posibles posiciones en el campo...");
 				System.out.print("\n"+club.displayPositionEnum());
 				System.out.print("Ingrese la posicion del jugador: ");
 				position = sc.nextLine();
 				}//End while
+				if(!position.equalsIgnoreCase("portero")){
+					do{
+						System.out.print("Cantidad de goles metidos por el jugador: ");
+						goals = sc.nextInt();
+						sc.nextLine();
+					}while(goals < 0);
+				}//End if
 				msg = club.hireEmployee(name,id,salary,shirt,goals,averageScore,position);
 				break;
 			default:
 				System.out.println("Nunca deberías de poder ver este mensaje."); break;
 		}//End switch
-		System.out.println(msg);
+		System.out.println("\n"+msg);
 	}//End hireEmployee.
 	
 	public void fireEmployee(){
 		String id = new String();
-		System.out.print("Por favor ingrese el ID del empleado a despedir.");
+		System.out.print("Por favor ingrese el ID del empleado a despedir: ");
 		id = sc.nextLine();
 		System.out.println(club.fireEmployee(id));
 	}//End fireEmployee
@@ -172,6 +182,7 @@ public class Menu{
 		System.out.println("Mostrando equipos...\n-A\n-B");
 		System.out.print("Ingrese el nombre del equipo al que agregar al empleado: ");
 		teamName = sc.nextLine();
+		teamName = teamName.toUpperCase();
 		System.out.print("\n" + club.addEmployeeToTeam(id,teamName));
 	}//End addEmployeeToTeam
 	
@@ -202,7 +213,7 @@ public class Menu{
 		System.out.println("\nMostrando posibles tacticas....\n" + club.displayTacticsEnum());
 		System.out.print("Ingrese el nombre de la tactica que usara: ");
 		tactic = sc.nextLine();
-		while(club.checkTacticsEnum(tactic)){
+		while(!club.checkTacticsEnum(tactic)){
 			System.out.println("\n["+tactic+"], no es una tactica valida...");
 			System.out.println("\nMostrando posibles tacticas....\n" + club.displayTacticsEnum());
 			System.out.print("Ingrese el nombre de la tactica que usara: ");
@@ -218,15 +229,66 @@ public class Menu{
 	}//End updateEmployeeInformation
 	
 	public void displayEmployeeInformation(){
-		
+		String id = new String();
+		System.out.print("Ingrese la id del empleado: ");
+		System.out.print("\n"+club.displayEmployeeInformation(id));
 	}//End displayEmployeeInformation
 	
 	public void displayAllEmployeesInformation(){
-		
+		System.out.println("\nMostrando informacion de todos los empleados...\n");
+		System.out.print(club.displayAllEmployeeInformation());
 	}//End displayAllEmployeesInformation
 	
 	public void displayTeamInformation(){
-		
+		String teamName = new String();
+		System.out.print("Ingrese el nombre del equipo: ");
+		teamName = sc.nextLine();
+		System.out.print("\n"+club.displayTeamInformation(teamName));
 	}//End displayTeamInformation
+	
+	public void doOperation(int opt){
+		switch(opt){
+			case HIREEMPLOYEE:
+				hireEmployee();
+				break;
+			case FIREEMPLOYEE:
+				fireEmployee();
+				break;
+			case ADDEMPLOYEETOTEAM:
+				addEmployeeToTeam();
+				break;
+			case ADDTRAININGTOTEAM:
+				addTrainingToTeam();
+				break;
+			case UPDATEEMPLOYEEINFORMATION:
+				updateEmployeeInformation();
+				break;
+			case DISPLAYEMPLOYEEINFORMATION:
+				displayEmployeeInformation();
+				break;
+			case DISPLAYALLEMPLOYEESINFORMATION:
+				displayAllEmployeesInformation();
+				break;
+			case DISPLAYTEAMINFORMATION:
+				displayTeamInformation();
+				break;
+			case DISPLAYALLTEAMSINFORMATION:
+				break;
+			case EXIT:
+				System.out.println("Saliendo...");
+				break;
+			default:
+				System.out.println("Opcion erronea.");
+		}//End switch
+	}//End doOperation
+	
+	public void startProgram(){
+		int opt = 0;
+		do{
+			displayMainMenu();
+			opt = readOption();
+			doOperation(opt);
+		}while(opt != EXIT);
+	}//End startProgram
 	
 }//End Menu

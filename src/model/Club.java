@@ -17,6 +17,7 @@ public class Club{
 		name = new String();
 		NIT = new String();
 		date = new Date();
+		employees = new ArrayList<Employee>();
 		controller = new EnumController();
 		dressingRoom1 = new String[7][6];
 		dressingRoom2 = new String[7][7];
@@ -30,6 +31,7 @@ public class Club{
 		this.name = name;
 		this.NIT = NIT;
 		date = new Date();
+		employees = new ArrayList<Employee>();
 		controller = new EnumController();
 		dressingRoom1 = new String[7][6];
 		dressingRoom2 = new String[7][7];
@@ -74,6 +76,7 @@ public class Club{
 	
 	public String hireEmployee(String name,String id,double salary,int shirt,int goals,double averageScore,String position){
 		String msg = "No se ha podido contratar al empleado.";
+		position = controller.addUnderscores(position);
 		if(controller.checkPositionEnum(position)){
 		  Player player = new Player(name,id,salary,false,shirt,goals,averageScore);
 		  player.setPosition(position);
@@ -100,7 +103,9 @@ public class Club{
 		boolean state = false;
 		String msg;
 		if( (team != -1) && (employee != -1) ){
+			state = true;
 			employees.get(employee).setTeam(teamName);
+			employees.get(employee).setState(true);
 			if( employees.get(employee) instanceof MainCouch){
 				MainCouch mCouch = (MainCouch)employees.get(employee);
 				teams[team].setMainCouch(mCouch);
@@ -234,7 +239,7 @@ public class Club{
 		for(int i = 0; i < teams.length && !found; i++ ){
 			if(name.equals(teams[i].getName())){
 				index = i;
-				found = false;
+				found = true;
 			}//End if
 		}//End for
 		return index;
@@ -253,13 +258,41 @@ public class Club{
 	}//End findId
 	
 	public String displayEmployeeInformation(String id){
-		boolean found = false;
-		String info = new String();
-		for(int i = 0; i < employees.size() && !found; i++){
-			if(id.equals(employees.get(i).getId())){
-				
-			}//End if
-		}//End for
+		int index = findId(id);
+		String info = "*****************************************\n";
+		if(index != -1)
+			info += employees.get(index).toString();
+		else
+			info += "No se encontro un empleado con esta id";
+		return info;
 	}//End displayEmployeeInformation
 	
+	public String displayAllEmployeeInformation(){
+		String info = new String();
+		for(int i = 0; i < employees.size(); i++){
+			info += "*****************************************\n";
+			info += employees.get(i).toString() +"\n";
+		}//End for
+		if(employees.size() == 0)
+		   info = "No hay empleados.";
+		return info;
+	}//End displayEmployeeInformation
+	
+	public String displayTeamInformation(String teamName){
+		int index = findTeam(teamName);
+		String info = "El equipo no existe.";
+		if(index != -1){
+			info = "*****************************************\n";
+			info += teams[index].toString();
+		}//End if
+		return info;
+	}//End displayTeamInformation
+	
+	/*public String updateEmployeeInfo(String id){
+		int index = findId(id);
+		String msg = "No se ha podido actualizar la informacion del usuario.";
+		if(index != -1){
+			
+		}//End if
+	}//End updateEmployeeInfo*/
 }//End Club
