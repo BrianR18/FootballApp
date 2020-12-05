@@ -5,6 +5,8 @@ package model;
 public class MainCoach extends Coach implements Calculable{
 	private int numberTeams;
 	private int championshipsWon;
+	private double level;
+	private double price;
 	/**
 	* constructor of the MainCoach class.<br>
 	* <b>pre:</b> .<br>
@@ -14,6 +16,8 @@ public class MainCoach extends Coach implements Calculable{
 		super();
 		numberTeams = 0;
 		championshipsWon = 0;
+		price = calculatePrice();
+		level = calculateLevel();
 	}//End constructor1
 	/**
 	* construcotr of the HeadCoach class.<br>
@@ -31,6 +35,8 @@ public class MainCoach extends Coach implements Calculable{
 		super(name,id,salary,state,expYear);
 		this.numberTeams = numberTeams;
 		this.championshipsWon = championshipsWon;
+		price = calculatePrice();
+		level = calculateLevel();
 	}//End constructor2
 	/**
 	* changes the MainCoach amount of leading teams.<br>

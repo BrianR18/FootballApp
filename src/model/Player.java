@@ -8,6 +8,8 @@ public class Player extends Employee implements Calculable{
 	private int goals;
 	private double averageScore;
 	private Position position;
+	private double level; 
+	private double price;
 	
 	public Player(){
 		super();
@@ -15,6 +17,8 @@ public class Player extends Employee implements Calculable{
 		goals = 0;
 		averageScore = 0;
 		position = Position.BANCA;
+		level = calculateLevel();
+		price = calculatePrice();
 	}//End contructor1
 	/**
 	* constructor of the Player class.<br>
@@ -33,6 +37,8 @@ public class Player extends Employee implements Calculable{
 		this.shirtNumber = shirtNumber;
 		this.goals = goals;
 		this.averageScore = averageScore;
+		level = calculateLevel();
+		price = calculatePrice();
 	}//End contructor2
 	/**
 	* changes the Player t-shirt number.<br>
@@ -159,7 +165,7 @@ public class Player extends Employee implements Calculable{
 	public String toString(){
 		String obj = super.toString() + "\nNumero de camiseta: " + shirtNumber + "\n" +
 					"Numero de goles hechos: " + goals + "\n" + "Calificacion promedio: " + averageScore
-					+ "\nPosicion: " + position.toString();
+					+ "\nPosicion: " + position.toString() + "\nPrecio de mercado: " + price + "\nNivel del jugador: "+ level;
 		return obj;
 	}//End toString
 }//End Player
