@@ -15,7 +15,9 @@ public class Menu{
 	private final int DISPLAYALLTEAMSINFORMATION = 9;
 	private final int LOCATE = 10;
 	private final int DISPLAYLOCATE = 11;
-	private final int EXIT = 12;
+	private final int DISPLAYTRAINING = 12;
+	private final int DISPLAYTRAININGSTRING = 13;
+	private final int EXIT = 14;
 	
 	//Sub menu
 	private final int MAINCOUCH = 1;
@@ -52,6 +54,8 @@ public class Menu{
 		System.out.println("["+DISPLAYALLTEAMSINFORMATION+"]Mostrar la informacion de todos los equipos.");
 		System.out.println("["+LOCATE+"]Ubicar empleados en las instalaciones.");
 		System.out.println("["+DISPLAYLOCATE+"]Mostrar empleados en las instalaciones.");
+		System.out.println("["+DISPLAYTRAINING+"]Mostrar formacion.");
+		System.out.println("["+DISPLAYTRAININGSTRING+"]Mostrar formacion de los jugadores en el campo.");
 		System.out.println("["+EXIT+"]Salir del programa.");
 	}//End displayOption
 	
@@ -87,6 +91,11 @@ public class Menu{
 		name = sc.nextLine();
 		System.out.print("Ingresar el id del empleado: ");
 		id = sc.nextLine();
+		while(club.checkId(id)){
+			System.out.println("El id ["+id+"] ya esta ocupado por otro empleado.");
+			System.out.print("Ingresar el id del empleado: ");
+			id = sc.nextLine();
+		}//End while
 		do{
 		  System.out.print("Ingresar el salario del empleado: ");
 		  salary = sc.nextDouble();
@@ -225,6 +234,11 @@ public class Menu{
 		}//End while
 		System.out.print("Ingrese la formacion (el formato debe ser X-X-X, ej: 4-4-2): ");
 		training = sc.nextLine();
+		while(!club.checkTraining(training)){
+			System.out.println("La formacion ingresada no es valida.");
+			System.out.print("Ingrese la formacion (el formato debe ser X-X-X, ej: 4-4-2): ");
+			training = sc.nextLine();
+		}//End while
 		System.out.println(club.addTrainingToTeam(teamName,day,month,year,tactic,training));
 	}//End addTrainingToTeam
 	
@@ -399,19 +413,42 @@ public class Menu{
 		}while( opt < 1 || opt > 3);
 		switch(opt){
 			case 1:
-				locate += club.displayDressingRoom1();
+				locate += club.displayOffices();
 				break;
 			case 2:
-				locate += club.displayDressingRoom2();
+				locate += club.displayDressingRoom1();
 				break;
 			case 3:
-				locate += club.displayOffices();
+				locate += club.displayDressingRoom2();
 				break;
 			default:
 				System.out.println("\nNunca deberias poder ver esto.");
 		}//End switch
 		System.out.println("\n"+locate);
 	}//End locateInPremises
+	
+	public void displayTraining(){
+		String team = new String();
+		System.out.println("Mostrando equipos existentes...\n-A\n-B");
+		System.out.print("Ingrese el equipo: ");
+		team = sc.nextLine();
+		System.out.println("\n"+ club.displayTeamAlignments(team));
+	}//End displayTraining
+	
+	public void displayTrainingString(){
+		String team = new String();
+		int index = 0;
+		System.out.println("Mostrando equipos existentes...\n-A\n-B");
+		System.out.print("Ingrese el equipo: ");
+		team = sc.nextLine();
+		System.out.println("Mostrando alineaciones...");
+		System.out.println(club.displayTeamAlignments(team));
+		System.out.print("Ingrese la alineacion que desea mostrar en el campo: ");
+		index = sc.nextInt();
+		sc.nextLine();
+		index--;
+		System.out.println("\n\n"+club.displayTeamAlignmentTraining(team,index));
+	}//End displayTraining
 	
 	public void doOperation(int opt){
 		switch(opt){
@@ -447,6 +484,12 @@ public class Menu{
 				break;
 			case DISPLAYLOCATE:
 				displayLocate();
+				break;
+			case DISPLAYTRAINING:
+				displayTraining();
+				break;
+			case DISPLAYTRAININGSTRING:
+				displayTrainingString();
 				break;
 			case EXIT:
 				System.out.println("Saliendo...");

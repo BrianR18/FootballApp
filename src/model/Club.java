@@ -105,14 +105,15 @@ public class Club{
 					teams[teamIndex].removePlayer(id);
 				}//End else
 			}//End if
-				if(employees.get(employeeIndex) instanceof Player) {
-				  if( (employees.get(employeeIndex).getTeam()).equals("A") )
-				     fillDressingRoomTeamA();
-				  else
-				     fillDressingRoomTeamB();
-				 }//End if
-				else
-					fillOffices();
+			if(employees.get(employeeIndex) instanceof Player) {
+				if( (employees.get(employeeIndex).getTeam()).equals("A") )
+				    fillDressingRoomTeamA();
+				else if( (employees.get(employeeIndex).getTeam()).equals("B") )
+				    fillDressingRoomTeamB();
+			}//End if
+			else{
+				fillOffices();
+			}
 			msg = "Se ha despedido al empleado correctamente.";
 		}//if
 		return msg;
@@ -193,22 +194,20 @@ public class Club{
 	public void fillDressingRoomTeamA(){
 		int distance = 0;
 		int player = 0;
-		boolean allplayers = false;
+		clearFields(dressingRoom1,7,6);
 		Collections.shuffle(employees); 
-		for(int i = 0; i < 7 && !allplayers; i++){
-		  for(int j = 0; j < 6 && !allplayers; j++){
-			  if(distance % 2 == 0){
+		for(int i = 0; i < 7; i++){
+		  for(int j = 0; j < 6; j++){
+			  if(distance % 2 == 0 && player < employees.size() ){
 				  while( (!(employees.get(player) instanceof Player) || !((employees.get(player).getTeam()).equals("A"))) && ( player+1 < employees.size()) ){
 					  player++;
 				  }//End while
-				  if(player < employees.size()){
-					employees.get(player).setLocated(true);
-					dressingRoom1[i][j] = employees.get(player).getId();  
+				  if( (employees.get(player) instanceof Player) && (employees.get(player).getTeam()).equals("A") && employees.get(player).getState()){
+					dressingRoom1[i][j] = employees.get(player).getId();
+					player++;
 				  }//End if
-				  else
-					allplayers = true;
 			  }//End if
-			 distance++; 
+			 distance++;
 		  }//End for
 		  distance++;
 		}//End for
@@ -217,20 +216,18 @@ public class Club{
 	public void fillDressingRoomTeamB(){
 		int distance = 0;
 		int player = 0;
-		boolean allplayers = false;
 		Collections.shuffle(employees);
-		for(int i = 0; i < 7 && !allplayers; i++){
-		  for(int j = 0; j < 7 && !allplayers; j++){
-			  if(distance % 2 == 0){
+		clearFields(dressingRoom2,7,7);
+		for(int i = 0; i < 7; i++){
+		  for(int j = 0; j < 7; j++){
+			  if(distance % 2 == 0 && player < employees.size()){
 				  while( (!(employees.get(player) instanceof Player) || !((employees.get(player).getTeam()).equals("B"))) && ( player+1 < employees.size()) ){
-					  player++;
+					 player++;
 				  }//End while
-				  if(player < employees.size()){
-					employees.get(player).setLocated(true);
+				  if( (employees.get(player) instanceof Player) && (employees.get(player).getTeam()).equals("B") && employees.get(player).getState()){
 					dressingRoom2[i][j] = employees.get(player).getId();
+					player++;	
 				  }//End if
-				  else
-					allplayers = true;
 			  }//End if
 			 distance++; 
 		  }//End for
@@ -240,26 +237,32 @@ public class Club{
 	public void fillOffices(){
 		int distance = 0;
 		int couch = 0;
-		boolean allcouches = false;
 		Collections.shuffle(employees);
-		for(int i = 0; i < 6 && !allcouches; i++){
-		  for(int j = 0; j < 6 && !allcouches; j++){
-			  if(distance % 2 == 0){
+		clearFields(offices,6,6);
+		for(int i = 0; i < 6; i++){
+		  for(int j = 0; j < 6; j++){
+			  if(distance % 2 == 0 && couch < employees.size()){
 				  while( (employees.get(couch) instanceof Player)  && ( couch+1 < employees.size()) ){
 					  couch++;
 				  }//End while
-				  if(couch < employees.size()){
-					employees.get(couch).setLocated(true);
-					offices[i][j] = employees.get(couch).getId();
+				  if( !(employees.get(couch) instanceof Player) && employees.get(couch).getState() ){
+					  offices[i][j] = employees.get(couch).getId();
+					  couch++;
 				  }//End if
-				  else
-					allcouches = true;
 			  }//End if
-			 distance++; 
+			  distance++; 
 		  }//End for
 		  distance++; 
 		}//End for
 	}//End fillOfficess
+	
+	public void clearFields(String[][] m, final int r,final int c){
+		for(int i = 0; i < r; i++){
+			for(int j = 0; j < c; j++){
+				m[i][j] = null;
+			}//End for
+		}//End for
+	}//End clearFields
 	
 	public int findTeam(String name){
 		int index = -1;
@@ -423,4 +426,44 @@ public class Club{
 		return office;
 	}//End displayDressingRoom2
 	
+	public String displayTeamAlignments(String team){
+		int teamIndex =findTeam(team);
+		String alignment = "["+team+"], no es un equipo existente.";
+		if(teamIndex != -1){
+			alignment = teams[teamIndex].displayAlignments();
+		}//End if
+		return alignment;
+	}//End displayAlignments
+	
+	public String displayTeamAlignmentTraining(String team,int i){
+		int teamIndex = findTeam(team);
+		String training = "["+team+"], no es un equipo existente.";
+		if(teamIndex != -1){
+			training = teams[teamIndex].displayAlignmentTraining(i);
+		}
+		return training;
+	}//End displayAlignmentTraining
+	
+	public boolean checkTraining(String t){
+		boolean check = false;
+		int amountPlayers = 0;
+		if(t.length() == 5){
+			for(int i = 0; i < 5; i += 2){
+				amountPlayers += Integer.parseInt(Character.toString(t.charAt(i)));
+			}//End for
+			if(amountPlayers  == 10)
+				check = true;
+		}//End if
+		return check;
+	}//End checkTraining
+	
+	public boolean checkId(String id){
+		boolean check = false;
+		for(int i = 0; i < employees.size() && !check; i++){
+			if( employees.get(i).getId().equals(id)){
+				check = true;
+			}//End if
+		}//End for
+		return check;
+	}//End checkId
 }//End Club

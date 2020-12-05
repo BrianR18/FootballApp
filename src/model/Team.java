@@ -90,6 +90,21 @@ public class Team{
 		return status;
 	}//End addTraining.*/
 	
+	public String displayAlignments(){
+		String alignment = new String();
+		for(int i = 0; i < alignments.size();i++){
+			alignment += "["+(i+1)+"]"+alignments.get(i).getTrainingString()+"\n";
+		}//End for
+		return alignment;
+	}//End displayAlignments
+	
+	public String displayAlignmentTraining(int i){
+		String training = "["+i+"]No esta dentro del rango de opciones";
+		if( i >= 0 && i < alignments.size() )
+		  training = alignments.get(i).displayTraining();
+		return training;
+	}//End displayAlignmentTraining
+	
 	public String toString(){
 		String obj = "Nombre del equipo: " + name + "\n" +
 		"Entrenador principal: " + ( (mainCouch != null) ? mainCouch.getName() :"Sin asignar" ) + 

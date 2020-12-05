@@ -34,9 +34,10 @@ public class Alignment{
 				if(numbers[index] > 0){
 					training[i][j] = 1;
 				}//End if
+				numbers[index]--;
 			}//End for1
 			index++;
-		}//End for2
+		}//End for
 	}//End addTraining*/
 	
 	public String displayTraining(){
@@ -55,10 +56,12 @@ public class Alignment{
 		int players = 0; //Saves the amount of players in each position.
 		for(int i = 2; i < ROWS; i+=3){
 			for(int j = 1; j < (COLUMNS -1); j++){
-				if(training[i][j] == 1)
-				 players++;
+				if(training[i][j] == 1){
+					players++;
+				}
 			}//End for
 			t += ((i+3 < ROWS)?players+"-":String.valueOf(players));
+			players = 0;
 		}//End for
 		return t;
 	}//End getTrainingString*/
@@ -69,9 +72,9 @@ public class Alignment{
         int index = 0;
         for(int i = 0; i < s.length(); i += 2){
             numbers[index] = Integer.parseInt(Character.toString(s.charAt(i)));
-            index++;
+			index++;
         }//End for
-        return numbers;
+		return numbers;
 	}//End getNumbersFromString
 	
 	public String toString(){
