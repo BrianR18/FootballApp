@@ -289,7 +289,7 @@ public class Menu{
 						championshipWon = sc.nextInt();
 						sc.nextLine();
 					}while(championshipWon<0);
-					msg = club.updateMainCouchInfo(id,salary,expYears,numberTeams,championshipWon);
+					msg = club.updateMainCoachInfo(id,salary,expYears,numberTeams,championshipWon);
 				break;
 				case ASSISTCOUCH:
 					do{
@@ -315,7 +315,7 @@ public class Menu{
 						System.out.print("Ingrese la experticia del asistente: ");
 						expertise = sc.nextLine();
 					}//End while
-					msg = club.updateAssistCouchInfo(id,salary,expYears,explayer,expertise);
+					msg = club.updateAssistCoachInfo(id,salary,expYears,explayer,expertise);
 				break;
 				case PLAYER:
 					do{
