@@ -70,6 +70,14 @@ public abstract class Employee{
 		return team;
 	}//End getTeam
 	
+	public void setLocated(boolean l){
+		this.located = l;
+	}//End setLocated
+	
+	public boolean getLocated(){
+		return located;
+	}//End getLocated
+	
 	public String toString(){
 		String obj = "Nombre: " + name + "\nIdentificacion: " + id + 
 		"\nSalario: " + salary + "\n" + "Estado: " + ((state)?"Activo":"Inactivo");
