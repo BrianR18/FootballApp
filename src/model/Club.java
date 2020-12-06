@@ -665,9 +665,12 @@ public class Club{
 	public boolean checkTraining(String t){
 		boolean check = false;
 		int amountPlayers = 0;
+		int aux = 0;
 		if(t.length() == 5){
 			for(int i = 0; i < 5; i += 2){
-				amountPlayers += Integer.parseInt(Character.toString(t.charAt(i)));
+				aux = Integer.parseInt(Character.toString(t.charAt(i)));
+				if(aux <=7)
+				  amountPlayers += aux;
 			}//End for
 			if(amountPlayers  == 10)
 				check = true;

@@ -60,7 +60,7 @@ public class Alignment{
 		int[] numbers = getTrainingFromString(t);
 		int index = 0;
 		for(int i = 2; i < ROWS; i+=3){
-			for(int j = 1; j < (COLUMNS -1); j++){
+			for(int j = 0; j < COLUMNS; j++){
 				if(numbers[index] > 0){
 					training[i][j] = 1;
 				}//End if
@@ -90,7 +90,7 @@ public class Alignment{
 		String t = new String();
 		int players = 0; //Saves the amount of players in each position.
 		for(int i = 2; i < ROWS; i+=3){
-			for(int j = 1; j < (COLUMNS -1); j++){
+			for(int j = 0; j < COLUMNS ; j++){
 				if(training[i][j] == 1){
 					players++;
 				}
